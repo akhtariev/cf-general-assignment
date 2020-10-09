@@ -3,9 +3,9 @@ addEventListener('fetch', event => {
 })
 
 const links = [ 
-  { "name": "Website", "url": "https://akhtariev.ca/" },
-  { "name": "LinkedIn", "url": "https://www.linkedin.com/in/roman-akhtariev/" },
-  { "name": "GitHub", "url": "https://github.com/akhtariev" }
+  { "name": "Option 1", "url": "https://thumbs.dreamstime.com/b/hire-me-stamp-text-hire-me-inside-illustration-109042373.jpg" },
+  { "name": "Option 2", "url": "https://thumbs.dreamstime.com/b/businessman-standing-holding-black-board-hiere-me-please-wording-72895608.jpg" },
+  { "name": "Option 3", "url": "https://res.cloudinary.com/fleetnation/image/private/c_fit,w_1120/g_south,l_text:style_gothic2:%C2%A9%20Erik%20Reis,o_20,y_10/g_center,l_watermark4,o_25,y_50/v1455382764/axrn9xz5qggbhzibhotv.jpg" }
 ]
 
 class LinksTransformer {
@@ -35,6 +35,26 @@ class AvatarTransformer {
   }
 }
 
+class SocialTransformer {
+  async element(element) {
+    element.removeAttribute('style');
+    element.append("<a href=\"https://github.com/akhtariev\"><img src=\"https://www.flaticon.com/svg/static/icons/svg/174/174857.svg\"></a>", { html: true })
+  }
+}
+
+
+class TitleTransformer {
+  async element(element) {
+    element.setInnerContent("Roman Akhtariev");
+  }
+}
+
+class BackgroundTransformer {
+  async element(element) {
+    element.setAttribute("class", "bg-blue-300");
+  }
+}
+
 /**
  * Respond with hello worker text
  * @param {Request} request
@@ -61,5 +81,8 @@ async function handleRequest(request) {
     .on("div#profile", new ProfileTransformer())
     .on("h1#name", new UsernameTransformer())
     .on("img#avatar", new AvatarTransformer())
+    .on("div#social", new SocialTransformer())
+    .on("title", new TitleTransformer())
+    .on("body", new BackgroundTransformer())
     .transform(response);
 }
